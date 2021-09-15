@@ -12,6 +12,7 @@ class ArabicTableViewCell: UITableViewCell {
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var viewWrapper: UIView!
     
     var arabData: [[String]] = [[""]]
     var translationData: [[String]] = [[""]]    
@@ -19,20 +20,30 @@ class ArabicTableViewCell: UITableViewCell {
     var currentTableView = UITableView()
     
     
+
+   
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         collectionView.delegate = self
         collectionView.dataSource = self
         
+        let gesture = UITapGestureRecognizer(target: self, action:  #selector(self.checkAction))
+        self.viewWrapper.addGestureRecognizer(gesture)
+
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             let heightCollectionView = self.collectionView.contentSize.height
             self.collectionViewHeight.constant = heightCollectionView
             self.collectionView.reloadData()
             self.currentTableView.reloadData()
+            self.viewWrapper.layer.cornerRadius = heightCollectionView * 0.15
         }
-        
+    }
+    
+    @objc func checkAction(sender : UITapGestureRecognizer) {
+        // Do what you want
+        print("checkedactionisit")
         
     }
 
